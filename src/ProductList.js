@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Table } from "reactstrap";
+import { Button, Table } from "reactstrap";
 
 class ProductList extends Component {
+  
   render() {
     return (
       <div>
-        <h3>
+        <h5>
           {this.props.info.title}-{this.props.currentCategory}
-        </h3>
+        </h5>
         <Table>
           <thead>
             <tr>
@@ -16,6 +17,7 @@ class ProductList extends Component {
               <th>Price</th>
               <th>Quantity/Unit</th>
               <th>Stock</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -26,6 +28,9 @@ class ProductList extends Component {
                 <td>{product.unitPrice}</td>
                 <td>{product.quantityPerUnit}</td>
                 <td>{product.unitsInStock}</td>
+                <td>
+                  <Button onClick={()=>this.props.addToCart(product)} color="success">Add to Cart</Button>
+                </td>
               </tr>
             ))}
           </tbody>
