@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import Navi from "./Navi";
 import CategoryList from "./CategoryList";
 import ProductList from "./ProductList";
-import alertify from "alertifyjs"
+import alertify from "alertifyjs";
+import NotFound from "./NotFound";
+import CartList from "./CartList";
+import Form1 from "./Form1";
 import { Col, Container, Row } from "reactstrap";
+import { Route, Routes } from "react-router-dom";
+import Form2 from "./Form2";
 
 class App extends Component {
   state = { currentCategory: "", products: [], cart: [] };
@@ -42,6 +47,7 @@ class App extends Component {
   removeFromCart = (product) => {
     let newCart = this.state.cart.filter((c) => c.product.id !== product.id);
     this.setState({ cart: newCart });
+    alertify.warning(product.productName + " removed from cart!", 1.5);
   };
 
   render() {
@@ -60,12 +66,31 @@ class App extends Component {
               />
             </Col>
             <Col xs="9 ">
-              <ProductList
-                products={this.state.products}
-                currentCategory={this.state.currentCategory}
-                addToCart={this.addToCart}
-                info={productInfo}
-              />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <ProductList
+                      products={this.state.products}
+                      currentCategory={this.state.currentCategory}
+                      addToCart={this.addToCart}
+                      info={productInfo}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path="/cart"
+                  element={
+                    <CartList
+                      cart={this.state.cart}
+                      removeFromCart={this.removeFromCart}
+                    />
+                  }
+                ></Route>
+                <Route path="/form1" element={<Form1 />}></Route>
+                <Route path="/form2" element={<Form2 />}></Route>
+                <Route path="*" element={<NotFound />}></Route>
+              </Routes>
             </Col>
           </Row>
         </Container>
